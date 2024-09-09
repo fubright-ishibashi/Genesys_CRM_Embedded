@@ -1,0 +1,101 @@
+a {
+    text-decoration: none;
+    color: #000000;
+}
+html {
+    height: 100%;
+}
+body {
+    height: 100%;
+    margin: 0;
+    /* max-width: 1440px; */
+    margin: 0 auto;
+    font-family: "Noto Sans JP", sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal;
+}
+.contener{
+    min-height: 720px;
+}
+.btn-size-middle{
+    width: 125px;
+}
+.tab-menu{
+    padding-top: 10px; text-align: center; width: 125px;height:45px; background-color: white;border:solid 1px #EDF2F9;
+}
+.tab-active{
+    background-color: #EDF2F9;
+}
+.box{
+  width: 100%;
+  overflow-y: scroll;          /* 縦方向にスクロール可能にする */
+  height: 200px;
+}
+.customer-info{
+    background-color: #A9CEEC;
+    padding:20px;
+}
+.customer-info label{
+    font-weight:bold;
+}
+.history-info{
+    background-color: #EDF2F9;
+    padding:20px;
+}
+.customer-list{
+    background-color: #EDF2F9;
+    padding:20px;
+    width: 100%;
+    overflow-y: scroll;          /* 縦方向にスクロール可能にする */
+    height: 750px;
+
+}
+.history-input{
+    background-color: #A9CEEC;;
+    padding:20px 0px;
+}
+.softphone{
+    position: absolute;
+    bottom: 500px;
+    right: 0;
+}
+#softphone{
+    height: 500px;
+    position: fixed;
+    right: 0;
+}
+.sidemenu-category{
+    height: 3em;
+    background-color: #8b8b8b;
+    color: #e6e6e6;
+    padding-top: 0.6em;
+    padding-left: 0.5em;
+    margin-bottom: 1px;
+}
+.sidemenu-link{
+    height: 3em;
+    background-color: #c7c7c7;
+    color: #e6e6e6 !important;
+    padding-top: 0.6em;
+    padding-left: 1.5em;
+    margin-bottom: 1px;
+}
+
+.hidden-info {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s ease-out;
+}
+
+.show {
+    max-height: 500px; /* 適切な値に設定（必要に応じて調整） */
+}
+
+.show-hide-btn{
+    cursor: pointer;
+    width: fit-content;
+    margin: 5px auto;
+    padding: 0px 15px;
+    border-radius: 15px;
+    background: #FFF;
+}

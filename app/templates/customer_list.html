@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="customer-info">
+    <div class="row">
+        <h5 class="col-6">連絡先一覧</h5>
+        <div class="col-6" style="text-align: right;">
+            <button class="btn btn-primary btn-size-middle" style="margin-bottom: .5rem;" onclick="window.location.href='{{ url_for('customer.register_customer') }}'">新規登録</button>
+        </div>
+    </div>
+    <div class="customer-list">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>顧客名</th>
+                    <th>部署名</th>
+                    <th>担当者名</th>
+                    <th>メールアドレス</th>
+                    <th>電話番号</th>
+                </tr>
+            </thead>            
+            {% for customer in customers %}
+                <tr onclick="window.location.href='{{ url_for('customer.show_customer', id=customer.id) }}';" style="cursor: pointer;">
+                    <td>{{ customer.customer_name }}</td>
+                    <td>{{ customer.division_name  }}</td>
+                    <td>{{ customer.manager_name  }}</td>
+                    <td>{{ customer.mail_address }}</td>
+                    <td>{{ customer.telephone_number  }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>  
+</div>  
+{% endblock %}
+

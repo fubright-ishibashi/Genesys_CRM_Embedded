@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="customer-info">
+    <div class="row">
+        <h5 class="col-6">問合せ履歴一覧</h5>
+    </div>
+    <div class="customer-list">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>作成日時</th>
+                    <th>分類1</th>
+                    <th>分類2</th>
+                    <th>問い合わせ内容</th>
+                    <th>担当者</th>
+                    <th>ステータス</th>
+                </tr>
+            </thead>            
+            {% for history in histories %}
+                <tr onclick="window.location.href='{{ url_for('customer.show_customer', id=history.customer_id) }}?history_id={{ history.id }}';" style="cursor: pointer;">
+                    <td>{{ history.createTime.strftime('%Y-%m-%d %H:%M') }}</td>
+                    <td>{{ history.history_type1 }}</td>
+                    <td>{{ history.history_type2 }}</td>
+                    <td>{{ history.inquiry_details }}</td>
+                    <td>{{ history.contact_person }}</td>
+                    <td>{{ history.status }}</td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td>No history found.</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>  
+</div>
+{% endblock %}
+

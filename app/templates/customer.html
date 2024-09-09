@@ -1,0 +1,171 @@
+{% extends "base.html" %}
+{% block content %}
+            <div class="customer-info">
+                <h5>顧客情報</h5>
+                <div class="row mt-3">
+                    <div class="col-5">
+                        <label for="customer-name" class="form-label mb-0 fw-bold">顧客名</label>
+			            <p>{{ customer.customer_name }}</p>
+                    </div>
+                    <div class="col-4">
+                        <label for="customer-name" class="form-label mb-0 fw-bold">部署名</label>
+			            <p>{{ customer.division_name }}</p>
+                    </div>
+                    <div class="col-3">
+                        <label for="customer-name" class="form-label mb-0 fw-bold">担当者名</label>
+			            <p>{{ customer.manager_name }}</p>
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-5">
+                        <label for="customer-name" class="form-label mb-0 fw-bold">郵便番号</label>
+			            <p>{{ customer.post_code }}</p>
+                    </div>
+                    <div class="col-4">
+                        <label for="customer-name" class="form-label mb-0 fw-bold">電話番号</label>
+			            <p>{{ customer.telephone_number }}</p>
+                    </div>
+                    <div class="col-3">
+                        <label for="customer-name" class="form-label mb-0 fw-bold">携帯電話</label>
+			            <p>{{ customer.cellphone_number }}</p>
+                    </div>
+                </div>
+                <div class="hidden-info" id="details">
+                    <div class="row mt-3">
+                        <div class="col-9">
+                            <label for="customer-name" class="form-label mb-0 fw-bold">住所</label>
+                            <p>{{ customer.address }}</p>
+                        </div>
+                        <div class="col-3">
+                            <label for="customer-name" class="form-label mb-0 fw-bold">FAX</label>
+                            <p>{{ customer.fax_address }}</p>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-9">
+                            <label for="customer-name" class="form-label mb-0 fw-bold">メールアドレス</label>
+                            <p>{{ customer.mail_address }}</p>
+                        </div>
+                        <div class="col-3">
+                            <label for="customer-name" class="form-label mb-0 fw-bold">ランク</label>
+                            <p>{{ customer.customer_lank }}</p>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-12">
+                        <label for="customer-name" class="form-label mb-0 fw-bold">メモ</label>
+			            <p>{{ customer.memo }}</p>
+                    </div>
+                </div>
+            </div>
+            <p id="show-details-btn" class="show-hide-btn">詳細</p>
+            <p id="hide-details-btn" class="show-hide-btn" style="display:none;">隠す</p>
+            <div class="history-info">
+                <div class="row justify-content-between" style="padding: 0 20px;"> 
+                    <h5 style="width:fit-content">問合せ一覧</h5>
+                    <button class="btn btn-outline-primary btn-size-middle" onclick="window.location.href='{{ url_for('customer.show_customer', id=customer.id) }}'">新規登録</button>
+
+                </div>
+                <div class="row mt-3">
+                    <div class="col-12">
+                        <div class="box">
+                            <table class="table table-hover">
+                                {% for history in histories %}
+                                    <tr onclick="window.location.href='{{ url_for('customer.show_customer', id=customer.id) }}?history_id={{ history.id }}';" style="cursor: pointer;">
+                                        <td>{{ history.createTime.strftime('%Y-%m-%d %H:%M') }}</td>
+                                        <td>{{ history.history_type1 }}</td>
+                                        <td>{{ history.history_type2 }}</td>
+                                        <td>{{ history.inquiry_details }}</td>
+                                        <td>{{ history.contact_person }}</td>
+                                        <td>{{ history.status }}</td>
+                                    </tr>
+                                {% else %}
+                                    <tr>
+                                        <td>履歴が存在しません</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                {% endfor %}
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="history-input">
+                <h5>問合せ入力</h5>
+                <form method="POST" action="{{ url_for('customer.show_customer', id=customer.id) }}">
+                    {{ form.hidden_tag() }}
+                    {% if selected_history %}
+                        <input type="hidden" name="history_id" value="{{ selected_history.id }}">
+                    {% endif %}
+                    <div class="row mt-3">
+                        <div class="col-3">
+                            <label for="history_type1" class="form-label mb-0 d-block">問い合わせ分類１</label>
+                            <select id="history_type1" name="history_type1">
+                                {% for class1 in inquiryType1 %}
+                                <option value="{{ class1.id }}" {% if selected_history and selected_history.history_type1|string == class1.id|string %} selected {% endif %}>
+                                    {{ class1.name }}
+                                </option>
+                            {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-3">
+                            <label for="history_type2" class="form-label mb-0 d-block">問い合わせ分類２</label>
+                            <select id="history_type2" name="history_type2">
+                                {% for class2 in inquiryType2 %}
+                                <option value="{{ class2.id }}" data-val="{{ class2.type1_id }}" {% if selected_history and selected_history.history_type2|string == class2.id|string %} selected {% endif %}>
+                                    {{ class2.name }}
+                                </option>
+                            {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-3">
+                            <label for="responsible-person" class="form-label mb-0 d-block">担当者名</label>
+                            <select id="responsible_person" name="contact_person">
+                                {% for staff in staff_data %}
+                                <option value="{{ staff.id }}" {% if selected_history and selected_history.contact_person|string == staff.id|string %} selected {% endif %}>
+                                    {{ staff.name }}
+                                </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-12">
+                            <label for="inquiry_details" class="form-label mb-0 d-block">問い合わせ内容</label>
+                            <textarea class="form-control" id="inquiry_details" name="inquiry_details" rows="3">{{ selected_history.inquiry_details if selected_history else '' }}</textarea>
+                        </div>
+                    </div>
+                    <div class="row mt-3 justify-content-between">
+                        <div class="col-3">
+                            <label for="status" class="form-label mb-0 d-block">ステータス</label>
+                            <select id="status" name="status">
+                                {% for status in status_data %}
+                                <option value="{{ status.id }}" {% if selected_history and selected_history.status|string == status.id|string %} selected {% endif %}>
+                                    {{ status.name }}
+                                </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-3">
+                            <label class="form-label mb-0 d-block">作成日時</label>
+                            {{ selected_history.createTime if selected_history else '' }}　
+                        </div>
+                        <div class="col-3">
+                            <label class="form-label mb-0 d-block">更新日時</label>
+                            {{ selected_history.updateTime if selected_history else '' }}
+                        </div>
+                        <div class="col-3 align-self-end" style="text-align: right;">
+                            {% if selected_history %}
+                                <a href="{{ url_for('customer.delete_history', customer_id=customer.id, history_id=selected_history.id) }}" onclick="return confirm('本当に削除しますか？');" class="btn btn-outline-danger">削除</a>
+                            {% endif %}
+                            <button class="btn btn-primary btn-size-middle">更新</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+{% endblock %}
